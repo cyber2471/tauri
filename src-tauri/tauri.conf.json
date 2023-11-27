@@ -1,0 +1,68 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev",
+    "devPath": "http://localhost:8082",
+    "distDir": "../build"
+  },
+  "package": {
+    "productName": "KDSnDID Manager",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false
+    },
+    "bundle": {
+      "active": true,
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "com.kfckorea.kdsndid",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false,
+      "endpoints": ["https://www.astems.co.kr/cyberpark/updates.json"],
+      "pubkey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyrXaopndI8DlYQNOD70VkQ42m81YPg9tNXA685LcnRf0Z5a4K5hIeN5LFoibh1i5nUj7brLorh/rxNj2052m0wKxkb6PQqcvzNikVbcpDrMF/5AEDKpUsmVtJ+8diLAWcNvH5nANFPcsQbxPIRPbOnCXtVYTxkZUvBA2CyjAnrsNmg4PtgbAadY/PeQ5ot3QSmKLTmutW41wfCHLjGa2p6SdtahOAUhD2oQWHfgi4dhGA1dlitbZpFjTtRhRAgh6Djmi8qmvOrJd1AO7IGyQnLMXq9Sp3m67oNna0uaUqzhEQEHaG4FK9tT1orOXiIcUvG+hlvru4yEgj466yOCefQIDAQAB"
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 752,
+        "resizable": false,
+        "title": "KDSnDID Manager",
+        "width": 860
+      }
+    ]
+  }
+}
