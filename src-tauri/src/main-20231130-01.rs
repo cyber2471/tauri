@@ -30,7 +30,7 @@ fn main() {
 
 
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![greet,hello,run_node_script,start_node_sidecar,play_audio_file])
+    .invoke_handler(tauri::generate_handler![greet,hello,run_node_script,start_node_sidecar])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 
@@ -98,7 +98,7 @@ fn run_node_script() {
 // }
 
 #[tauri::command]
-fn start_node_sidecar(app: tauri::AppHandle, window:Window) -> Result<String,  String> {
+fn start_node_sidecar(app: tauri::AppHandle, window:Window) -> Result<String, String> {
     
   use std::process::{Command, Stdio};
   use std::io::{BufRead, BufReader};
@@ -116,7 +116,7 @@ fn start_node_sidecar(app: tauri::AppHandle, window:Window) -> Result<String,  S
     // window.emit("error_event", "Error: Parameter is empty").unwrap();
     // return Err("Parameter is empty".to_string());
 
-    let node_binary = app.path_resolver().app_data_dir().unwrap().join("/Program Files/nodejs/node.exe");
+    let node_binary = app.path_resolver().app_data_dir().unwrap().join("/Program Files/nodejs/naode.exe");
     let script_path = app.path_resolver().app_data_dir().unwrap().join("/devStage/svelte/tauri/KDSnDID/src-tauri/build/index.js");
 
     // let node_binary = app.path_resolver().app_data_dir().unwrap().join("/Program Files (x86)/KDSnDID/App/kdsctl.bat");
@@ -131,26 +131,27 @@ fn start_node_sidecar(app: tauri::AppHandle, window:Window) -> Result<String,  S
       .spawn()
       .expect("지정 프로그램 실행오류");
 
-    // let stderr = BufReader::new(child.stderr.take().expect("Failed to open stderr"));
+    let stderr = BufReader::new(child.stderr.take().expect("Failed to open stderr"));
 
-    // for line in stderr.lines() {
-    //     let line = line.expect("Failed to read line from stderr");
+    for line in stderr.lines() {
+        let line = line.expect("Failed to read line from stderr");
+        // let line = line;
 
-    //     // println!("line {}",line);
+        println!("line {}",line);
 
-    //     if line.contains("EADDRINUSE") { // Example error pattern
-    //       window.emit("error_event", format!("Error: 이미 서비스가 실행중입니다.")).unwrap();
-    //       break;
-    //       // Err("error!!".to_string())
-    //       // println!("Error: 이미 서비스가 실행중입니다.");
-    //     }      
-    //     else if line.contains("MODULE_NOT_FOUND") { // Example error pattern
-    //       window.emit("error_event", format!("Error: 해당 프로그램이 존재하지 않습니다.")).unwrap();
-    //       break;
-    //       // Err("error!!".to_string())
-    //       // println!("Error: 지정된 프로그램이 존재하지 않습니다.");
-    //     }
-    // }
+        if line.contains("EADDRINUSE") { // Example error pattern
+          window.emit("error_event", format!("Error: 이미 서비스가 실행중입니다.")).unwrap();
+          break;
+          // Err("error!!".to_string())
+          // println!("Error: 이미 서비스가 실행중입니다.");
+        }      
+        else if line.contains("MODULE_NOT_FOUND") { // Example error pattern
+          window.emit("error_event", format!("Error: 해당 프로그램이 존재하지 않습니다.")).unwrap();
+          break;
+          // Err("error!!".to_string())
+          // println!("Error: 지정된 프로그램이 존재하지 않습니다.");
+        }
+    }
 
     // let status = child.wait().expect("Failed to wait on child");
     // if !status.success() {
@@ -218,9 +219,3 @@ fn start_node_sidecar(app: tauri::AppHandle, window:Window) -> Result<String,  S
 //           .expect("failed to execute process");
 
 // }
-
-#[tauri::command]
-fn play_audio_file(number: String) {
-  // 여기에서 숫자에 해당하는 오디오 파일을 재생
-  // 예: "1" -> "1.wav"
-}

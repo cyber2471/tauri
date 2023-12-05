@@ -4,26 +4,8 @@
     import SrcSync from "../lib/SourceSync.svelte";
     import TypingEffect from '../lib/TypingEffect.svelte';
     import myImage01 from '$lib/images/nodeserver.jpg';
-    import { onMount } from 'svelte';
-
     // import myImage01 from '$lib/images/photo-1606107557195-0e29a4b5b4aa.jpg';
-    onMount(() => {
-
-      document.getElementById('sendVoice')?.addEventListener('click', () => {
-
-            fetch('http://localhost:3000/voice')
-                .then(response => response.text())
-                .then(data => {
-                    console.log(data);
-                    // Additional logic to handle voice data
-                })
-                .catch(error => console.error('Error:', error));
-        });
-
-  });
-
-
-
+    
   </script>
   
   <!-- <main class="min-w-[320] flex flex-col mx-auto items-center justify-center p-8">
@@ -83,9 +65,6 @@
             <div class="card-actions justify-end">
               <Server/>
             </div>
-            <div>
-              <button id="sendVoice">Send Voice</button>
-            </div>
           </div>
         </div>
 
@@ -95,7 +74,17 @@
 
 </div>    
 
-
+<script>
+  document.getElementById('sendVoice').addEventListener('click', () => {
+      fetch('http://localhost:3000/voice')
+          .then(response => response.text())
+          .then(data => {
+              console.log(data);
+              // Additional logic to handle voice data
+          })
+          .catch(error => console.error('Error:', error));
+  });
+</script>
 
 
   <!-- </main>   -->

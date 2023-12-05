@@ -14,7 +14,10 @@
     async function runNode() {
       // await invoke('run_node_script');
       try {
-        await invoke('start_node_sidecar1');
+        if (await confirm("진행하시겠습니까?")) {
+          await invoke('start_node_sidecar1');
+        }
+
         console.log("------ success!! ---------")
 
       } catch (err) { 
