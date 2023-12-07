@@ -5,4 +5,4 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 });
 
 export { Layout as default };
-//# sourceMappingURL=_layout.svelte-babe79e5.js.map
+//# sourceMappingURL=layout.svelte-babe79e5.js.map

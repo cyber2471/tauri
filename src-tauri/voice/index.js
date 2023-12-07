@@ -4,11 +4,30 @@ import Player from 'node-wav-player';
 
 const app = express();
 const port = 3000; 
-const vPath = "C:/devStage/etc/DID Sound/";
+const vPath = "C:/Program Files (x86)/KDSnDID/Appinstall/sound/";
 
 app.get('/', (req, res) =>
 {
-    res.send('음성화일 송출을 위한 서비스!!');
+    res.send(`<html>
+                <head>
+                    <script language=javascript>
+                        function onSend()
+                        {
+                            obj = document.forms[0];
+                            nNumber = obj.callnumber.value;
+                            // alert(nNumber);
+                            location.href = "http://localhost:3000/voice/" + nNumber;
+                        }
+                    </script>
+                </head>
+                <body>
+                    <form>
+                        <input type=text name=callnumber>
+                        <input type=button value='호출' onclick=onSend()>
+                    </form>
+                </body>
+              </html>
+            `);
 });
 
 app.get('/voice/:vFile', async (req, res) => {
@@ -23,7 +42,7 @@ app.get('/voice/:vFile', async (req, res) => {
     }
 
     const result = await PlayVoice(vFile);
-    res.send(`Call number is ${vFile}`);
+    res.send(`호출번호 : ${vFile}`);
 }); 
  
 app.listen(port, () => {
@@ -33,34 +52,29 @@ app.listen(port, () => {
 async function PlayVoice(nName) {
     let inputNum = nName;
     let szNum = [0,1,10,100,1000];
-    let szFile = [];
     let szResult = [];
-    let strValue = "";
 
-    let nLength = inputNum.length;
+    console.log('호출번호:%s', nName);
 
     while (inputNum.length > 0) {
-        strValue = await inputNum.substr(0,1);
-        inputNum = await inputNum.slice(1);
-
+        let strValue = inputNum.substr(0, 1);
+        
         console.log('substr:%s', strValue);
 
-        szFile.push(strValue * szNum[nLength]);
-        --nLength;
+        let nValue = strValue * szNum[inputNum.length];
+
+        inputNum = inputNum.slice(1);
+
+        if (nValue != 0) {
+            let filePath = "sound_" + nValue + ".wav";
+            console.log("filePath:%s", filePath);
+
+            await playAudio(filePath); 
+            szResult.push(filePath);
+        }
     }
 
-    for (let i=0;i < szFile.length;i++) {
-
-        if (szFile[i] == 0) continue;
-
-        szResult[i] = "sound_" + szFile[i] + ".wav"
-        console.log("szResult[%d]:%s",i,szResult[i]);
-        
-        await playAudio(szResult[i]);
-        // await setTimeout(() => playAudio(szResult[i]), 2500);
-    }
-
-    playAudio("sound_hook2.wav");
+    await playAudio("sound_hook2.wav");
     console.log(`szResult: ${szResult}`);
 }
 

@@ -106,7 +106,7 @@ const options = {
   service_worker: false,
   templates: {
     app: ({ head, body, assets: assets2, nonce, env }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="' + assets2 + '/favicon.png" />\n		<meta name="viewport" content="width=device-width" />\n		' + head + '\n	</head>\n	<body data-sveltekit-preload-data="hover">\n		<div style="display: contents">' + body + "</div>\n	</body>\n</html>\n",
-    error: ({ status, message }) => '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<title>' + message + `</title>
+    error: ({ status, message }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<title>' + message + `</title>
 
 		<style>
 			body {
@@ -115,18 +115,8 @@ const options = {
 				--divider: #ccc;
 				background: var(--bg);
 				color: var(--fg);
-				font-family:
-					system-ui,
-					-apple-system,
-					BlinkMacSystemFont,
-					'Segoe UI',
-					Roboto,
-					Oxygen,
-					Ubuntu,
-					Cantarell,
-					'Open Sans',
-					'Helvetica Neue',
-					sans-serif;
+				font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+					Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -177,7 +167,7 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "1w98wah"
+  version_hash: "xhvgqc"
 };
 function get_hooks() {
   return {};
@@ -2517,8 +2507,8 @@ class Csp {
   /** @type {CspReportOnlyProvider} */
   report_only_provider;
   /**
-   * @param {import('./types.js').CspConfig} config
-   * @param {import('./types.js').CspOpts} opts
+   * @param {import('./types').CspConfig} config
+   * @param {import('./types').CspOpts} opts
    */
   constructor({ mode, directives, reportOnly }, { prerender }) {
     const use_hashes = mode === "hash" || mode === "auto" && prerender;
@@ -3311,7 +3301,7 @@ async function render_page(event, page, options2, manifest, state, resolve_opts)
     }
     state.prerender_default = should_prerender;
     const fetched = [];
-    if (get_option(nodes, "ssr") === false && !state.prerendering) {
+    if (get_option(nodes, "ssr") === false) {
       return await render_response({
         branch: [],
         fetched,
@@ -3478,7 +3468,7 @@ async function render_page(event, page, options2, manifest, state, resolve_opts)
       resolve_opts,
       page_config: {
         csr: get_option(nodes, "csr") ?? true,
-        ssr: get_option(nodes, "ssr") ?? true
+        ssr: true
       },
       status,
       error: null,
